@@ -1,0 +1,99 @@
+---
+openapi: 3.0.0
+info:
+  title: API-Catalog
+  description: This is the documentation of the API to obtain all the information
+    about the catalog
+  version: 1.0.0
+tags:
+- name: Catalog
+  description: Operations about the catalog
+paths:
+  /city:
+    get:
+      summary: Retrieve city resources.
+      description: Retrieve a bunch of city resources. Specify example resource as body payload.
+      operationId: getCity
+      responses:
+        200:
+          description: Get an array of city resources.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CityDTO'
+    post:
+      summary: Create new city resource.
+      description: Create a new city resource. Specify payload within request body.
+      requestBody:
+        description: The payload of resource city to create.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CityDTO'
+      responses:
+        201:
+          description: Get the newly created city resource.
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/CityDTO'
+  /city/{code}:
+    get:
+      summary: Retrieve a city resource.
+      description: Retrieve an already existing city resource having the specified id.
+      operationId: getCityById
+      responses:
+        200:
+          description: city resource having specified id.
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/CityDTO'
+        404:
+          description: city not exist
+    put:
+      summary: Update a city resource.
+      description: Update an already existing city resource having the specified id.
+      requestBody:
+        description: The payload of resource city to update.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CityDTO'
+      responses:
+        200:
+          description: city resource with the modifications.
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/CityDTO'
+        404:
+          description: city not exist                   
+    delete:
+      summary: Delete a city resource.
+      description: Remove an existing city resource having the specified id.
+      responses:
+        204:
+          description: Resource city with specified id has been removed.
+        404:
+          description: city not exist   
+    parameters:
+      - name: code
+        in: path
+        description: Code of resource
+        required: true
+        schema:
+          type: string
+components:
+  schemas:
+    CityDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+        timeZone:
+          type: string
